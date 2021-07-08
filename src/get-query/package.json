@@ -1,0 +1,11 @@
+{
+  "name": "get-query",
+  "version": "1.0.0",
+  "description": "get query example lambda for RDS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Phillip Ninan",
+  "license": "MIT"
+}
