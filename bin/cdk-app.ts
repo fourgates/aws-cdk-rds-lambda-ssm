@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from '@aws-cdk/core';
 import { Construct } from '@aws-cdk/core';
+import { CdkApiStack, CdkApiStackProps } from '../lib/cdk-base-stack/cdk-api-stack';
 import { CdkBaseStack, CdkBaseStackProps } from '../lib/cdk-base-stack/cdk-base-stack';
 
 class DemoApp extends Construct{
@@ -10,12 +11,23 @@ class DemoApp extends Construct{
         const vpcProps: CdkBaseStackProps = {
             stage: id, 
             description: "Base VPC for AWS Cloud Application",
+            yourIpAddres: "",
             tags: {env: id},
             stackName: `PublicVpcStack-${id}` // used in cloudformation for naming stack
         }        
 
         const base:CdkBaseStack = new CdkBaseStack(this, `CdkVpcStack-${id}`,
             vpcProps);
+
+        // create an API            
+        const apiProps: CdkApiStackProps = {
+            stage: id,
+            securityGroup: base.defaultSecurityGroup,
+            vpc: base.vpc
+        }            
+
+        const api: CdkApiStack = new CdkApiStack(this, `CdkApiStack-${id}`,
+            apiProps);
     }
 }
 const app = new cdk.App();
