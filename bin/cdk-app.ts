@@ -23,7 +23,8 @@ class DemoApp extends Construct{
         const apiProps: CdkApiStackProps = {
             stage: id,
             securityGroup: base.defaultSecurityGroup,
-            vpc: base.vpc
+            vpc: base.vpc,
+            secretName: base.databaseCredentialsSecret.secretName
         }            
 
         const api: CdkApiStack = new CdkApiStack(this, `CdkApiStack-${id}`,
