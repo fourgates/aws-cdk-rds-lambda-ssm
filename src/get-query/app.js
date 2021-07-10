@@ -1,7 +1,6 @@
 const pg = require('pg')
 var AWS = require('aws-sdk'),
-    region = "us-east-1",
-    secretName = "dev-credentials";
+    region = "us-east-1";
 
 // Create a Secrets Manager client
 var client = new AWS.SecretsManager({
@@ -10,11 +9,9 @@ var client = new AWS.SecretsManager({
 
 // Call the async function and return NodeJS callback style
 exports.handler = async (event, context, callback) => {
-    // TODO - abstract secretName to an env variable
-    // process.env.SECRET_NAME
 
     // get secret string from secret manager
-    const out = await client.getSecretValue({ SecretId: secretName }).promise();
+    const out = await client.getSecretValue({ SecretId: process.env.SECRET_NAME }).promise();
     const secretParams = JSON.parse(out.SecretString);
 
     // https://node-postgres.com/api/client
