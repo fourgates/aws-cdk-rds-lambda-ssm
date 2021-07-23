@@ -46,18 +46,20 @@ export class CdkApiStack extends cdk.Stack {
             service: InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
             securityGroups: [props.securityGroup],
         })
-        // this.secretEndpoint.connections.allowDefaultPortFrom(getQueryFunction);
 
         // ###################################################
         // API
         // ###################################################       
 
+        // create a new API Gateway (AG)
         const demoApi = new HttpApi(this, `${props.stage}-DemoApi`)
 
+        // create an lambda integration to use in AG
         const getProxy = new LambdaProxyIntegration({
             handler: getQueryFunction
         })
 
+        // add a route to call lambda
         demoApi.addRoutes({
             path: '/demo',
             methods: [HttpMethod.GET],
